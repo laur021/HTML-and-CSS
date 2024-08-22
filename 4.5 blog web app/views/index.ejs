@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+</head>
+<body>
+    <header>
+        <%- include("partial/navmenu.ejs") %>
+    </header>
+    
+    <main>
+        <!-- text area and post button -->
+        <div class="m-auto p-5">
+            <div id="CreatePost" class="mb-5">
+                <div class="mb-3">
+                    <form action="/submit" method="POST" id="CreatePost">
+                        <textarea class="form-control fs-5" id="TextArea" rows="3" type="text" name="postContent" placeholder="What's on your mind ?"></textarea>
+                        
+                      </div>
+                      <div class="d-flex justify-content-end"">
+                        <button type="submit" class="btn btn-primary w-25">Post</button>
+                      </div>
+                    </form>
+            </div>
+        
+        <!-- list of post  -->
+        <div id="ListedPost">
+            <% if(locals.postArray) { %>
+                <% for(i=postArray.length - 1; i>=0; i--) { %>
+                    <div class="border border-1 rounded p-3 mb-3">
+                        <form action="/submit" method="POST">
+
+                            <!-- Hidden input to indicate update -->
+                             <!-- basta may name attr, kasamo to sa body -->
+                            <input type="hidden" name="postIndex" value="<%= i %>">
+
+                            <!-- date -->
+                            <div class="text-end fs-6 fw-lighter text-secondary pb-3">
+                                <%= locals.postArray[i].dateTime %>
+                            </div>
+
+                            <!-- content -->
+                            <textarea class="form-control fs-5 text-dark mb-3" type="text" id="PostedTextArea" disabled><%= locals.postArray[i].content%></textarea>
+
+                            <textarea class="form-control fs-5 text-dark mb-3" id="TextEditArea" name="postContent" type="text" hidden></textarea>
+
+                            <!-- action buttons -->
+                            <div class="d-flex justify-content-end gap-1">
+                                <button type="button" id="editBtn" class="btn btn-secondary w-25">Edit</button>
+                                <button type="submit" id="updateBtn" class="btn btn-success w-25" hidden>Update</button>
+                                <button type="submit" class="btn btn-danger w-25" formaction="/delete">Delete</button>
+                            </div>
+
+                        </form>
+                    </div>
+                <% } %>
+            <% } %>         
+        </div>
+
+    </main>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/js/function.js"></script>
+</body>
+</html>
