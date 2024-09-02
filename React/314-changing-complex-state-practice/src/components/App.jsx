@@ -10,31 +10,16 @@ const App = () => {
   });
 
   const contactEvent = (event) => {
+    const { name, value } = event.target;
 
-      const {name, value} = event.target;
-
-      setContact((prevValue) => {
-        if (name === "fName"){
-          return {
-            fName: value,
-            lName: prevValue.lName,
-            email: prevValue.email
-          }
-        }else if (name === "lName"){
-          return {
-            fName: prevValue.fName,
-            lName: value,
-            email: prevValue.email
-          }
-        }else if (name === "email"){
-          return {
-            fName: prevValue.fName,
-            lName: prevValue.lName,
-            email: value
-          }
-        }
-      })
-  }
+    setContact((prevValue) => {
+      return {
+        //use spread operator to add the array of properties from prevValue to return value and then it will set to contact
+        ...prevValue,
+        [name]: value,
+      };
+    });
+  };
 
   return (
     <div className="container">
